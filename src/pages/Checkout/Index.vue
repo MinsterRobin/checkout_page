@@ -69,6 +69,7 @@
 
             <input type="submit" value="Continue" class="submit-button">
         </form>
+        <CheckoutBasket/>
     </div>
 </template>
 
@@ -76,10 +77,11 @@
     import PageTitle from "@/components/PageTitle";
     import FormInput from "@/components/FormInput";
     import FormSaveCheckbox from "@/components/FormSaveCheckbox";
+    import CheckoutBasket from "@/components/CheckoutBasket";
 
     export default {
         name: "Index",
-        components: {FormSaveCheckbox, FormInput, PageTitle},
+        components: {CheckoutBasket, FormSaveCheckbox, FormInput, PageTitle},
         methods: {
             onSubmit : function () {
                 alert("OK");
