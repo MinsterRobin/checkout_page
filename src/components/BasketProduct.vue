@@ -33,11 +33,11 @@
                 required: true
             },
             prizeActual: {
-                type: String,
+                type: Number,
                 required: true
             },
             prizeOld: {
-                type: String,
+                type: Number,
                 required: false
             },
             productPhoto: {
