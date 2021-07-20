@@ -1,12 +1,17 @@
 <template>
     <div class="checkout-basket-layout">
         <div class="products-layout">
-            <div v-for="product in products" :key="product.id">
+            <div v-for="product in products" :key="product.index">
                 <BasketProduct
+                        v-bind:index="products.indexOf(product)"
                         v-bind:product-photo="product.productPhoto"
                         v-bind:productName="product.productName"
                         v-bind:prize-actual="product.prizeActual"
-                        v-bind:prize-old="product.prizeOld"/>
+                        v-bind:prize-old="product.prizeOld"
+                        v-bind:quantity="product.quantity"
+                        v-on:increment="handleIncrement"
+                        v-on:decrement="handleDecrement"
+                />
             </div>
         </div>
         <div class="prizes-total-layout">
@@ -18,7 +23,7 @@
             <hr>
             <div class="prize-total-line">
                 <p class="prize-total-label">Total</p>
-                <p class="">$148.98</p>
+                <p class="">${{totalBasketPrize}}</p>
             </div>
         </div>
     </div>
@@ -29,22 +34,62 @@
     export default {
         name: "CheckoutBasket",
         components: {BasketProduct},
-        data() {
-            return {
-                products: [
-                    {
-                        productPhoto: "photo1",
-                        productName: "Vintage Backbag",
-                        prizeActual: 54.99,
-                        prizeOld: 74.99
-                    },
-                    {
-                        productPhoto: "photo2",
-                        productName: "Levi Shoes",
-                        prizeActual: 74.99,
-                        prizeOld: 124.99
-                    }
-                ]
+        props: {
+            products: {
+                type: Array,
+                required: true,
+
+                productPhoto: {
+                    type: String,
+                    required: true
+                },
+                productName: {
+                    type: String,
+                    required: true
+                },
+                prizeActual: {
+                    type: Number,
+                    required: true
+                },
+                prizeOld: {
+                    type: Number,
+                    required: true
+                },
+                prizeUnitActual: {
+                    type: Number,
+                    required: true
+                },
+                prizeUnitOld: {
+                    type: Number,
+                    required: true
+                },
+                quantity: {
+                    type: Number,
+                    required: true
+                }
+            },
+        },
+        computed: {
+            totalBasketPrize() {
+                let totalPrize = 0;
+                for (const product of this.products) {
+                    totalPrize += product.prizeActual;
+                }
+                return totalPrize  / 100;
+            }
+        },
+        methods: {
+            handleIncrement(index) {
+                this.products[index].prizeActual = this.products[index].prizeActual + this.products[index].prizeUnitActual;
+                this.products[index].prizeOld =  this.products[index].prizeOld + this.products[index].prizeUnitOld;
+                this.products[index].quantity += 1;
+            },
+            handleDecrement(index) {
+                if (this.products[index].prizeActual !== 0) {
+                    this.products[index].prizeActual =  this.products[index].prizeActual - this.products[index].prizeUnitActual;
+                    this.products[index].prizeOld =  this.products[index].prizeOld - this.products[index].prizeUnitOld;
+                    this.products[index].quantity -= 1;
+                }
             }
         }
     }

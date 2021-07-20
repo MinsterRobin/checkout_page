@@ -69,7 +69,7 @@
 
             <input type="submit" value="Continue" class="submit-button">
         </form>
-        <CheckoutBasket/>
+        <CheckoutBasket v-bind:products="products"/>
     </div>
 </template>
 
@@ -86,7 +86,31 @@
             onSubmit : function () {
                 alert("OK");
             }
-        }
+        },
+        data() {
+            return {
+                products: [
+                    {
+                        productPhoto: "photo1",
+                        productName: "Vintage Backbag",
+                        prizeActual: 5499,
+                        prizeOld: 7499,
+                        prizeUnitActual: 5499,
+                        prizeUnitOld: 7499,
+                        quantity: 1
+                    },
+                    {
+                        productPhoto: "photo2",
+                        productName: "Levi Shoes",
+                        prizeActual: 7499,
+                        prizeOld: 12499,
+                        prizeUnitActual: 7499,
+                        prizeUnitOld: 12499,
+                        quantity: 1
+                    }
+                ]
+            }
+        },
     }
 </script>
 

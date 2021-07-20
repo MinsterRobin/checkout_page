@@ -8,16 +8,16 @@
                 <p class="product-name">{{productName}}</p>
 
                 <div class="product-prizes-container">
-                    <p class="prize-actual">${{prizeActual}}</p>
-                    <p class="prize-old">${{prizeOld}}</p>
+                    <p class="prize-actual">${{prizeActual / 100}}</p>
+                    <p class="prize-old">${{prizeOld / 100}}</p>
                 </div>
             </div>
 
 
             <div class="product-number-controller-layout">
-                <button class="product-number-button">-</button>
-                <p class="product-number">1</p>
-                <button class="product-number-button">+</button>
+                <button class="product-number-button" v-on:click="$emit('decrement', index)">-</button>
+                <p class="product-number">{{quantity}}</p>
+                <button class="product-number-button" v-on:click="$emit('increment', index)">+</button>
             </div>
         </div>
 
@@ -28,6 +28,9 @@
     export default {
         name: "BasketProduct",
         props: {
+            index: {
+                required: true
+            },
             productName: {
                 type: String,
                 required: true
@@ -42,6 +45,10 @@
             },
             productPhoto: {
                 type: String,
+                required: true
+            },
+            quantity: {
+                type: Number,
                 required: true
             }
         }
@@ -139,6 +146,11 @@
         font-size: 16px;
         color: $color-gray-3;
         font-weight: 500;
+        cursor: pointer;
+    }
+
+    .product-number-button:hover {
+        background-color: #D0D0D0;
     }
 
     .product-number {
