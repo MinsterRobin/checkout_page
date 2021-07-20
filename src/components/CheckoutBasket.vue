@@ -18,7 +18,7 @@
             <hr>
             <div class="prize-total-line">
                 <p>Shipping</p>
-                <p>$19</p>
+                <p>${{shipping / 100}}</p>
             </div>
             <hr>
             <div class="prize-total-line">
@@ -35,6 +35,10 @@
         name: "CheckoutBasket",
         components: {BasketProduct},
         props: {
+            shipping: {
+                type: Number,
+                required: true
+            },
             products: {
                 type: Array,
                 required: true,
@@ -75,7 +79,7 @@
                 for (const product of this.products) {
                     totalPrize += product.prizeActual;
                 }
-                return totalPrize  / 100;
+                return (totalPrize + this.shipping)  / 100;
             }
         },
         methods: {
@@ -101,8 +105,6 @@
 
     .checkout-basket-layout {
         padding: 30px;
-        max-width: max-content;
-        width: auto;
 
         display: flex;
         flex-direction: column;

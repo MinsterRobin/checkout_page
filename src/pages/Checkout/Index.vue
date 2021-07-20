@@ -1,75 +1,73 @@
 <template>
     <div class="page-layout">
         <PageTitle title="Checkout"/>
-        <form class="form-layout" v-on:submit="onSubmit">
+        <div class="content-layout">
+            <form class="form-layout" v-on:submit="onSubmit">
 
-            <div class="form-subsection-layout">
-                <p class="form-subsection-title">Contact information</p>
-                <FormInput
+                <div class="form-subsection-layout">
+                    <p class="form-subsection-title">Contact information</p>
+                    <FormInput
                         label="E-mail"
                         type="email" id="email"
                         placeholder="Enter your email..."
                         icon="mail"
-                />
+                    />
 
-                <FormInput
+                    <FormInput
                         label="Phone"
                         type="tel" id="phone"
                         placeholder="Enter your phone..."
                         icon="phone"
-                />
-            </div>
+                    />
+                </div>
 
-            <div class="form-subsection-layout">
-                <p class="form-subsection-title">Shipping address</p>
-                <FormInput
+                <div class="form-subsection-layout">
+                    <p class="form-subsection-title">Shipping address</p>
+                    <FormInput
                         label="Full name"
                         type="text" id="fullname"
                         placeholder="Your full name.."
                         icon="pp"
-                />
+                    />
 
-                <FormInput
+                    <FormInput
                         label="Address"
                         type="text" id="address"
                         placeholder="Your address.."
                         icon="home"
-                />
+                    />
 
-                <FormInput
+                    <FormInput
                         label="City"
                         type="text" id="city"
                         placeholder="Your city.."
                         icon="city"
-                />
-                <div class="form-inputs-container">
-<!--                    <label for="country">Country</label>-->
-                    <FormInput
-                            label="City"
-                            type="text" id="city"
-                            placeholder="Your city.."
-                            icon="city"
                     />
-<!--                    <select name="country" id="country" required>-->
-<!--                        <option>France</option>-->
-<!--                        <option>Germany</option>-->
-<!--                        <option>Italy</option>-->
-<!--                    </select>-->
+                    <div class="form-inputs-container">
+                        <FormSelect
+                            label="Country"
+                            id="country"
+                            icon="world"
+                            placeholder="Your country"
+                            v-bind:options="['France', 'Germany', 'Italy']"
+                        />
 
-                    <FormInput
+                        <FormInput
                             label="Postal code"
                             type="text" id="postal"
                             pattern="[0-9]{5}"
                             placeholder="Your postal code.."
                             icon="postal"
-                    />
+                        />
+                    </div>
+                    <FormSaveCheckbox/>
                 </div>
-                <FormSaveCheckbox/>
-            </div>
 
-            <input type="submit" value="Continue" class="submit-button">
-        </form>
-        <CheckoutBasket v-bind:products="products"/>
+                <input type="submit" value="Continue" class="submit-button">
+            </form>
+            <CheckoutBasket class="checkout-basket-container" v-bind:products="products" v-bind:shipping="1900"/>
+        </div>
+        <Footer/>
     </div>
 </template>
 
@@ -78,13 +76,15 @@
     import FormInput from "@/components/FormInput";
     import FormSaveCheckbox from "@/components/FormSaveCheckbox";
     import CheckoutBasket from "@/components/CheckoutBasket";
+    import FormSelect from "@/components/FormSelect";
+    import Footer from "@/components/Footer";
 
     export default {
         name: "Index",
-        components: {CheckoutBasket, FormSaveCheckbox, FormInput, PageTitle},
+        components: {Footer, FormSelect, CheckoutBasket, FormSaveCheckbox, FormInput, PageTitle},
         methods: {
             onSubmit : function () {
-                alert("OK");
+                alert("the form was sent successfully");
             }
         },
         data() {
@@ -120,8 +120,9 @@
 
     .page-layout {
         min-height: 100vh;
+        min-width: 250px;
         width: 100%;
-        max-width: 1680px;
+        max-width: 1480px;
         padding: $padding-large;
         margin: auto;
 
@@ -135,11 +136,28 @@
         }
     }
 
+    .content-layout {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 50px;
+        row-gap: 40px;
+
+        @include breakpoint('s') {
+            flex-direction: column-reverse;
+            align-items: center;
+        }
+    }
+
     .form-layout {
-        flex: 1;
-        row-gap: 55px;
+        flex: 2;
+
+        max-width: max-content;
+        width: 100%;
+        min-width: min-content;
+
         display: flex;
         flex-direction: column;
+        row-gap: 55px;
     }
 
     .form-subsection-layout {
@@ -161,9 +179,11 @@
 
     .form-inputs-container {
         display: flex;
+        flex-wrap: wrap;
         width: 100%;
         justify-content: space-between;
         column-gap: 4vw;
+        row-gap: 20px;
     }
 
     .submit-button {
@@ -179,5 +199,19 @@
         font-family: $font-family-primary;
         font-size: $font-size-regular;
         font-weight: 600;
+    }
+
+    .checkout-basket-container {
+        flex: 1;
+        max-width: max-content;
+        width: 100%;
+        height: max-content;
+        border-radius: 12px;
+    }
+
+    .checkout-basket-container, .form-layout {
+        @include breakpoint('s') {
+            max-width: unset;
+        }
     }
 </style>
