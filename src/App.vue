@@ -16,14 +16,4 @@ export default {
 
 <style lang="scss">
     @import "styles/global";
-
-    .container {
-        display: grid;
-        width: 500px;
-        grid-template-columns: 50px 1fr 2fr;
-    }
-
-    .container:hover {
-        transform: scale(0.5);
-    }
 </style>
